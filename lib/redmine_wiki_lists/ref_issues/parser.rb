@@ -4,8 +4,13 @@
 module RedmineWikiLists
   module RefIssues
     class Parser
+      EXTENDED_OPERATORS = ['=='].freeze
+      DEFAULT_DISPLAY_LIMIT = 100
+      MAX_DISPLAY_LIMIT = 1000
+
       attr_reader :search_words_s, :search_words_d, :search_words_w, :columns,
-                  :custom_query_name, :custom_query_id, :additional_filter, :only_text, :only_link, :count_flag, :zero_flag
+                  :custom_query_name, :custom_query_id, :additional_filter, :only_text, :only_link, :count_flag, :zero_flag,
+                  :display_limit, :display_limit_specified
 
       def initialize(obj, args = nil, project = nil)
         parse_args(obj, args, project) if args
@@ -24,6 +29,9 @@ module RedmineWikiLists
         @only_text = nil
         @count_flag = nil
         @zero_flag = nil
+        # サーバ保護のため -n オプション未指定なら上限 100 件
+        @display_limit = DEFAULT_DISPLAY_LIMIT
+        @display_limit_specified = false
 
         args.each do |arg|
           arg.strip!
@@ -87,6 +95,11 @@ module RedmineWikiLists
                   values = default_words(obj)
                 end
 
+                # Query#add_filter は operator を検証しないため、ここで検証する
+                unless Query.operators.keys.include?(operator) || EXTENDED_OPERATORS.include?(operator)
+                  raise "- invalid operator '#{operator}' in filter option (-f): #{words}"
+                end
+
                 @additional_filter << {:filter=>filter, :operator=>operator, :values=>values}
               else
                 raise "- no additional filter:#{arg}"
@@ -99,6 +112,20 @@ module RedmineWikiLists
               @count_flag = true
             when '0'
               @zero_flag = true
+            when 'n'
+              if sep
+                unless words =~ /\A[1-9]\d*\z/
+                  raise "- display limit must be a positive integer: #{arg}"
+                end
+                limit = words.to_i
+                if limit > MAX_DISPLAY_LIMIT
+                  raise "- display limit '#{limit}' exceeds maximum (#{MAX_DISPLAY_LIMIT})"
+                end
+                @display_limit = limit
+                @display_limit_specified = true
+              else
+                raise "- no display limit specified: #{arg}"
+              end
             else
               raise "- unknown option:#{arg}"
           end

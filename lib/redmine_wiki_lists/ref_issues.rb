@@ -20,7 +20,8 @@ usage: {{ref_issues([option].., [column]..)}}<br>
 -t[=column] : display text<br>
 -l[=column] : display linked text<br>
 -c : count issues<br>
--0 : no display if no issues
+-0 : no display if no issues<br>
+-n=NUMBER : display limit (default: 100, max: 1000)
 <br>[columns]<br> {
 TEXT
 
@@ -155,12 +156,17 @@ TEXT
         end
 
         @query.column_names = parser.columns unless parser.columns.empty?
-        @issues = @query.issues(order: sort_clause)
+        total_count = @query.issue_count
+        @issues = @query.issues(order: sort_clause, limit: parser.display_limit)
 
         if parser.zero_flag && @issues.size == 0
           disp = String.new
         elsif parser.only_text || parser.only_link
-          disp = String.new
+          if total_count > parser.display_limit && !parser.display_limit_specified
+            disp = "<p>#{I18n.t('ref_issues.display_limit_reached', limit: parser.display_limit, total: total_count)}</p>"
+          else
+            disp = String.new
+          end
           atr = parser.only_text if parser.only_text
           atr = parser.only_link if parser.only_link
           word = nil
@@ -196,15 +202,21 @@ TEXT
             end
           end
         elsif parser.count_flag
-          disp = @issues.size.to_s
+          disp = total_count.to_s
         else
+          if total_count > parser.display_limit && !parser.display_limit_specified
+            disp = "<p>#{I18n.t('ref_issues.display_limit_reached', limit: parser.display_limit, total: total_count)}</p>"
+          else
+            disp = String.new
+          end
+
           if params[:format] == 'pdf'
-            disp = render(partial: 'issues/list.html', locals: {issues: @issues, query: @query})
+            disp += render(partial: 'issues/list.html', locals: {issues: @issues, query: @query})
           else
             if method(:context_menu).parameters.size > 0
-              disp = context_menu(issues_context_menu_path) # < redmine 3.3.x
+              disp += context_menu(issues_context_menu_path) # < redmine 3.3.x
             else
-              disp = context_menu.to_s # >= redmine 3.4.0
+              disp += context_menu.to_s # >= redmine 3.4.0
             end
             disp += render(partial: 'issues/list', locals: {issues: @issues, query: @query})
           end
