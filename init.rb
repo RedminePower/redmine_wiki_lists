@@ -9,9 +9,9 @@ end
 Redmine::Plugin.register plugin_name do
   requires_redmine :version_or_higher => '3.4'
   name 'Redmine Wiki Lists plugin'
-  author 'Tomohisa Kusukawa'
+  author 'Redmine Power (original by Tomohisa Kusukawa)'
   description 'wiki macros to display lists of issues.'
-  version '0.0.11'
-  url 'https://www.r-labs.org/projects/wiki_lists/wiki/Wiki_Lists_en'
-  author_url 'https://github.com/tkusukawa/'
+  version '0.0.12'
+  url 'https://github.com/RedminePower/redmine_wiki_lists'
+  author_url 'https://github.com/RedminePower/'
 end
