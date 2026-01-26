@@ -13,6 +13,11 @@ This plugin adds wiki macros that display issue lists.
 
 http://www.r-labs.org/projects/wiki_lists/wiki/Wiki_Lists_en
 
+== Tested Redmine Versions
+
+* Redmine 5.1.11
+* Redmine 6.1.1
+
 == Links
 
 redmine.org: http://www.redmine.org/plugins/redmine_wiki_lists
