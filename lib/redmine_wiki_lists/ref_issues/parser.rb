@@ -139,6 +139,8 @@ module RedmineWikiLists
         return true if @search_words_d.present?
         return true if @search_words_w.present?
         return true if @additional_filter.present?
+        return true if @restrict_project
+        return true if @display_limit_specified
         false
       end
 
