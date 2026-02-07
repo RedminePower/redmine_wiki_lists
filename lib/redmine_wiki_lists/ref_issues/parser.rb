@@ -149,12 +149,12 @@ module RedmineWikiLists
         if @custom_query_id
           @query = IssueQuery.visible.find_by_id(@custom_query_id)
           raise "- can not find CustomQuery ID:'#{@custom_query_id}'" unless @query
-        elsif @custom_query_name then
+        elsif @custom_query_name
           cond = 'project_id IS NULL'
           cond += " OR project_id = #{project.id}" if project
-          cond = "(#{cond}) AND name = '#{@custom_query_name}'"
-          @query = IssueQuery.where(cond).where(user_id: User.current.id).first
-          @query = IssueQuery.where(cond).where(visibility: Query::VISIBILITY_PUBLIC).first unless @query
+          base_query = IssueQuery.where(cond).where(name: @custom_query_name)
+          @query = base_query.where(user_id: User.current.id).first
+          @query = base_query.where(visibility: Query::VISIBILITY_PUBLIC).first unless @query
           raise "- can not find CustomQuery Name:'#{@custom_query_name}'" unless @query
         else
           @query = IssueQuery.new(name: '_', filters: {})
