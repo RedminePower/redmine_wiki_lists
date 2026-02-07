@@ -163,7 +163,7 @@ TEXT
           disp = String.new
         elsif parser.only_text || parser.only_link
           if total_count > parser.display_limit && !parser.display_limit_specified
-            disp = "<p>#{I18n.t('ref_issues.display_limit_reached', limit: parser.display_limit, total: total_count)}</p>"
+            disp = "<p>#{I18n.t('ref_issues_display_limit_reached', limit: parser.display_limit, total: total_count)}</p>"
           else
             disp = String.new
           end
@@ -205,7 +205,7 @@ TEXT
           disp = total_count.to_s
         else
           if total_count > parser.display_limit && !parser.display_limit_specified
-            disp = "<p>#{I18n.t('ref_issues.display_limit_reached', limit: parser.display_limit, total: total_count)}</p>"
+            disp = "<p>#{I18n.t('ref_issues_display_limit_reached', limit: parser.display_limit, total: total_count)}</p>"
           else
             disp = String.new
           end
