@@ -69,16 +69,19 @@ Displays a list of issues matching specified conditions. You can use custom quer
 **Options:**
 | Option | Description |
 |--------|-------------|
-| `-i=ID` | Specify custom query by ID |
-| `-q=name` | Specify custom query by name |
-| `-p` | Restrict to current project |
-| `-p=identifier` | Restrict to specified project |
-| `-f:filter=value` | Add filter (separate multiple values with `\|`) |
-| `-t=column` | Display only text of specified column |
-| `-l=column` | Display specified column as link |
+| `-p` | Current project issues only |
+| `-p=identifier` | Specified project issues only |
+| `-q=query name` | Use custom query |
+| `-i=query ID` | Use custom query ID |
+| `-s=keyword` | Search in subject |
+| `-d=keyword` | Search in description |
+| `-w=keyword` | Search in subject + description |
+| `-f:field=value` | Filter condition (separate multiple values with `\|`) |
+| `-n=count` | Limit display count (max 1000) |
+| `-t` | Display subject as plain text |
+| `-l` | Display subject as link |
 | `-c` | Display count only |
-| `-0` | Display nothing if no results |
-| `-n=number` | Display limit (default: 100, max: 1000) |
+| `-0` | Display nothing if 0 results |
 
 **Examples:**
 ```
