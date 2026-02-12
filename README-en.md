@@ -21,8 +21,9 @@ Displays a list of wiki pages in table format. You can extract specific keywords
 **Options:**
 | Option | Description |
 |--------|-------------|
+| `-p` | Show only pages in current project |
+| `-p=identifier` | Show only pages in specified project |
 | `-c` | Target only child pages |
-| `-p=project_name` | Target wiki of the specified project |
 | `-w=width` | Specify table width |
 
 **Column specifications:**
