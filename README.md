@@ -8,6 +8,8 @@
 Wiki ページやチケットの説明にチケットやページの一覧を表示するマクロを提供するプラグインです。
 `wiki_list`、`issue_name_link`、`ref_issues` の3つのマクロが利用できます。
 
+<img src="images/wiki_lists_03.png" width="600">
+
 詳細は [こちら](https://github.com/RedminePower/redmine_studio_plugin/blob/master/docs/wiki_lists.md) をご覧ください。
 
 ## 対応バージョン

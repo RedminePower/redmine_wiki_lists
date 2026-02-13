@@ -8,6 +8,8 @@
 A plugin that provides macros to display lists of issues and wiki pages in wiki pages or issue descriptions.
 Three macros are available: `wiki_list`, `issue_name_link`, and `ref_issues`.
 
+<img src="images/wiki_lists_03.png" width="600">
+
 For details, see [here](https://github.com/RedminePower/redmine_studio_plugin/blob/master/docs/wiki_lists-en.md).
 
 ## Supported Versions
